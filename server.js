@@ -599,6 +599,20 @@ const products = {
   ],
 }
 
+const PORT=3001
+
+app.use((req,res,next)=>{
+  const linkYo=['localhost:8000','localhost:9007']
+  const origin=req.headers.origin;
+  if(linkYo.includes(origin)){
+    res.set('Acces-Control-Allow-Origin','localhost:8000')
+    res.set('Acces-Control-Allow-Methods','GET,POST')
+  }else{
+    res.status(404)
+  }
+  next()
+})
+
 app.get('/products',middleware,(req,res)=>{
     res.send(products)
 })
@@ -616,4 +630,4 @@ app.get('/brands/',middleware,(req,res)=>{
 })
 
 
-app.listen(3000)
+app.listen(PORT,()=>console.log(`server running on port http://localhost:${PORT}`))
